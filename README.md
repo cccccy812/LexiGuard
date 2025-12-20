@@ -89,17 +89,6 @@ Support for additional languages may be introduced in future versions.
            └──────────────────────────────┘
 ```
 
----
-
-#  Backend DFA (Processing Pipeline)
-![alt text](core-1.png)
-
----
-
-#  Web Interface DFA (User Interaction Flow)
-![alt text](web-2025-11-25-141416-1.png)
-
----
 
 #  Installation
 
