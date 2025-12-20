@@ -88,6 +88,10 @@ Support for additional languages may be introduced in future versions.
            │  - model = gpt-oss:20b       │
            └──────────────────────────────┘
 ```
+#  state machine diagram
+
+<img width="3667" height="379" alt="core" src="https://github.com/user-attachments/assets/4df89eb6-ec1c-428e-bfb3-3d92d6c328c1" />
+<img width="3676" height="318" alt="web" src="https://github.com/user-attachments/assets/cdbe7313-71a0-4925-a068-843500e051c6" />
 
 
 #  Installation
