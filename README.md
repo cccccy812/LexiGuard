@@ -1,168 +1,130 @@
-# LexiGuard — AI Contract Risk Analyzer
+# LexiGuard — AI-Based Contract Risk Analyzer (Web Version)
 
-LexiGuard is a lightweight AI-powered system designed to help users analyze contract clauses, identify potential legal risks, and summarize key points using natural language models.
-This repository includes:
-
-* **A standalone backend core** (`lexiguard_core.py`)
-* **A web-based frontend** built with **Streamlit** (`app.py`)
-* **Flexible clause segmentation** for various contract formats
-* **LLM-based clause-level risk assessment**
-
-LexiGuard supports **TXT** and **PDF** contract files and provides an instant Markdown report for download.
+LexiGuard is a web-based system that analyzes Traditional Chinese contracts and identifies potential legal risks using a Large Language Model (LLM).  
+The system is designed for non-legal users and emphasizes structured processing, determinism, and formal modeling, making it suitable for a **Theory of Computation Final Project**.
 
 ---
 
-## Features
+## 1. How to Run the System
 
-###  Intelligent Clause Segmentation
+### 1.1 Environment Setup
 
-Automatically detects:
+LexiGuard requires Python 3.9 or later.
 
-* `第 X 條`-style numbered clauses
-* `一、二、三、` Chinese-number format
-* `1.`, `(1)` fallback format
-
-Ensures robust segmentation even for poorly formatted contracts.
-
-###  AI-Powered Clause Analysis
-
-Each clause is analyzed using an LLM to produce:
-
-* Summary
-* Risk level (低 / 中 / 高)
-* Risk type (e.g., 資料隱私, 自動續約風險)
-* Explanation
-* Suggested mitigation
-
-All outputs are standardized and validated as strict JSON.
-
-###  Overall Risk Scoring
-
-A 0–100 risk score is computed based on clause-level results.
-
-###  Web-Based User Interface
-
-Built with Streamlit:
-
-* Upload contract file
-* View progress bar
-* Display clause-by-clause expandable panels
-* Download full Markdown report
-
----
-## Language Support
-
-LexiGuard currently focuses on Traditional Chinese contract analysis.
-All LLM outputs — including summary, risk level, risk type, risk reason, and suggestions — are generated entirely in Traditional Chinese.
-
-Because the legal risk classification logic and prompt instructions are designed specifically for Traditional Chinese contract wording and structure, the system is not yet optimized for other languages.
-
-Support for additional languages may be introduced in future versions.
-
----
-
-##  System Architecture
-
-```
-           ┌──────────────────────────────┐
-           │           Streamlit UI       │
-           │   - File upload              │
-           │   - Progress bar             │
-           │   - Results display          │
-           │   - Report download          │
-           └───────────────┬──────────────┘
-                           │
-                           ▼
-           ┌──────────────────────────────┐
-           │       LexiGuard Core         │
-           │  - Clause segmentation       │
-           │  - LLM API client            │
-           │  - Risk scoring              │
-           │  - Markdown report           │
-           └───────────────┬──────────────┘
-                           │
-                           ▼
-           ┌──────────────────────────────┐
-           │        LLM API (Gateway)     │
-           │  - /api/generate             │
-           │  - model = gpt-oss:20b       │
-           └──────────────────────────────┘
-```
-#  state machine diagram
-
-<img width="3667" height="379" alt="core" src="https://github.com/user-attachments/assets/4df89eb6-ec1c-428e-bfb3-3d92d6c328c1" />
-<img width="3676" height="318" alt="web" src="https://github.com/user-attachments/assets/cdbe7313-71a0-4925-a068-843500e051c6" />
-
-
-#  Installation
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/cccccy812/lexiguard.git
-cd lexiguard
-```
-
-### 2. Install dependencies
+Install dependencies using:
 
 ```bash
 pip install -r requirements.txt
+````
+
+### 1.2 API Key Configuration
+
+The system uses an Ollama-compatible LLM API provided by NCKU.
+**Do not hard-code the API key.** Set it via environment variables.
+
+**Windows (PowerShell):**
+
+```powershell
+$env:LEXIGUARD_API_KEY="your_api_key_here"
 ```
 
----
-
-#  Configuration
-
-Edit the following fields in **lexiguard_core.py**:
-
-```python
-FULL_ENDPOINT = "https://api-gateway.netdb.csie.ncku.edu.tw/api/generate"
-API_KEY = "YOUR_API_KEY_HERE"
-MODEL_NAME = "gpt-oss:20b"
-```
-
----
-
-#  Run the Web App
+**Linux / macOS:**
 
 ```bash
-streamlit run app.py
+export LEXIGUARD_API_KEY="your_api_key_here"
 ```
 
-After launching, open the link shown in your terminal (usually `http://localhost:8501`).
+### 1.3 Launch the Web Application
+
+Run the Streamlit web interface:
+
+```bash
+streamlit run lexiguard_web.py
+```
+
+After execution, open the local URL shown in the terminal using a web browser.
 
 ---
 
-#  Project Structure
+## 2. System Architecture and Features
+
+### 2.1 System Overview
+
+LexiGuard consists of two main layers:
+
+* **Web Layer**: Handles user interaction and visualization
+* **Core Layer**: Performs deterministic processing and LLM-based analysis
+
+The system processes a contract through a fixed pipeline, ensuring reproducibility and clear state transitions.
+
+### 2.2 Main Features
+
+* Upload contract files (`.txt` / `.pdf`)
+* Automatic clause segmentation supporting common Chinese legal formats
+* Clause-level risk analysis using LLM
+* Risk level classification: **Low / Medium / High**
+* Overall contract risk scoring (0–100)
+* Identification of top high-risk clauses
+* Interactive follow-up questions:
+
+  * Per-clause Q&A
+  * Global contract-level Q&A
+* Downloadable Markdown analysis report
+
+### 2.3 Language Support
+
+* Currently supports **Traditional Chinese contracts only**
+* English and Simplified Chinese contracts are not analyzed directly
+
+(Automatic language detection and translation are considered future extensions.)
+
+---
+
+## 3. Project Structure
+
+The project follows a modular design with clear separation of concerns.
 
 ```
-lexiguard/
-│
-├── app.py
-├── lexiguard_core.py
-├── requirements.txt
-├── README.md
+.
+├── lexiguard_core.py      # Core logic (segmentation, LLM calls, scoring)
+├── lexiguard_web.py       # Streamlit-based web interface
+├── requirements.txt       # Python dependencies
 ├── example contracts
-└── state machine diagrams
+├── README.md
 ```
 
+### 3.1 Core Module (`lexiguard_core.py`)
+
+Responsible for:
+
+* Clause segmentation (rule-based, deterministic)
+* LLM interaction via `/api/generate`
+* Risk normalization and aggregation
+* Markdown report generation
+
+This module is UI-independent and can be reused in CLI or API-based systems.
+
+### 3.2 Web Module (`lexiguard_web.py`)
+
+Responsible for:
+
+* File upload handling
+* Progress visualization
+* Displaying analysis results
+* Managing follow-up Q&A interactions
+* Providing report download functionality
+
 ---
 
-# Example Output
+## 4. State Machine Diagram
 
-After uploading a contract, LexiGuard provides:
-
-* Clause-by-clause risk evaluation
-* Overall risk score
-* Top 3 high-risk clauses
-* Downloadable Markdown report
 
 ---
 
-# Important Notes
+## Disclaimer
 
-* This system **does not provide legal advice**; it is for assisting purposes only.
-* LLM outputs may be imperfect; human review is required.
-* Uploaded documents are processed in memory and not stored.
+LexiGuard is an experimental academic project and does not provide legal advice.
+All analysis results are for reference only.
 
----
+```
+
