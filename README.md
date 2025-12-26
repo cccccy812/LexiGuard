@@ -118,7 +118,7 @@ Responsible for:
 
 ## 4. State Machine Diagram
 
-![Uploading Untitled diagram-2025-12-26-151553.png…]()
+![image](https://github.com/cccccy812/LexiGuard/blob/663755d80e915dfdb9c2cf533a9390dc17b2ec8f/state%20machine%20diagram.png)
 
 ---
 
@@ -128,5 +128,6 @@ LexiGuard is an experimental academic project and does not provide legal advice.
 All analysis results are for reference only.
 
 ```
+
 
 
