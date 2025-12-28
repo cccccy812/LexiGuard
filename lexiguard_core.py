@@ -250,7 +250,7 @@ class LLMClient:
 
 def is_trivial_clause(text: str) -> bool:
     """
-    判斷這段是不是「沒什麼內容」的條款，可以略過不送給 LLM。
+    判斷這段是不是沒什麼內容的條款，可以略過不送給LLM
     """
     s = (text or "").strip()
     if not s:
@@ -417,3 +417,4 @@ def create_markdown_report(results: List[Dict]) -> str:
         lines.append("\n---\n")
 
     return "\n".join(lines)
+
