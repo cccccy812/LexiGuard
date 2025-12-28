@@ -143,7 +143,7 @@ def main():
             st.markdown(f"**風險原因：** {r['risk_reason']}")
             st.markdown(f"**建議：** {r['suggestion']}")
 
-            # === A) 單條追問 ===
+            #  A) 單條追問
             st.markdown("### 針對本條追問")
             q_key = f"clause_q_{i}"
             ask_key = f"clause_ask_{i}"
@@ -186,7 +186,7 @@ def main():
     st.markdown("---")
     st.subheader("聊天室（針對整份合約追問）")
 
-    # === B) 聊天室 ===
+    #  B) 聊天室 
     # 組 top risky（最多 5 條）
     top_risky = []
     for idx, r in enumerate(results, start=1):
