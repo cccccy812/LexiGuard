@@ -262,11 +262,6 @@ def is_trivial_clause(text: str) -> bool:
     if not lines:
         return True
 
-    first = lines[0]
-    if first.startswith("###") and len(lines) == 1:
-        return True
-    if first.startswith("**") and first.endswith("**") and len(lines) == 1:
-        return True
 
     han = len(re.findall(r"[\u4e00-\u9fff]", s))
     if han < 4 and len(s) < 20:
@@ -286,7 +281,7 @@ def is_clause_start(line: str, has_article: bool, has_chinese_num: bool) -> bool
     if not s:
         return False
 
-    if has_article and re.match(r'^#{0,6}\s*第\s*[一二三四五六七八九十0-9]+\s*條', s):
+    if has_article and re.match(r'^第\s*[一二三四五六七八九十0-9]+\s*條', s):
         return True
 
     if has_chinese_num and re.match(r'^[一二三四五六七八九十]+\s*[、．.]', s):
